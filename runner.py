@@ -15,6 +15,6 @@ if __name__ == "__main__":
     gameInterface = GameInterface()
 
     while True:
-        command = recordCommandSounddevice(duration=2, playback=True)
+        command = recordCommandPyAudio(duration=3, playback=True)
         command = recognizer.classifyCommand(command)
         gameInterface.processCommand(command)

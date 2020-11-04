@@ -13,7 +13,7 @@ def recordCommandPyAudio(duration=3, playback=False):
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 2
-    RATE = 44100
+    RATE = 16000
     RECORD_SECONDS = duration
     WAVE_OUTPUT_FILENAME = "output.wav"
 
