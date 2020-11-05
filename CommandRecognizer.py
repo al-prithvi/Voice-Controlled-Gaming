@@ -7,7 +7,7 @@ from tensorflow.python.ops import io_ops
 import numpy as np
 
 from model.recognize_commands import RecognizeResult, RecognizeCommands
-
+from CommandRecorder import recordCommandPyAudio
 
 class Recognizer:
 
@@ -65,7 +65,7 @@ class Recognizer:
         sample_rate, data = self.read_wav_file("./output.wav")
         recognize_commands = RecognizeCommands(
             labels=["_silence_", "unknown", "yes", "no", "up", "down", "left", "right", "on", "off", "stop", "go"], #training label sequence
-            average_window_duration_ms=2000,
+            average_window_duration_ms=1500,
             detection_threshold=0.7,
             suppression_ms=10,
             minimum_count=1)
@@ -78,7 +78,7 @@ class Recognizer:
         clip_stride_samples = int(recording_length * sample_rate / 1000)
         audio_data_end = data_samples - clip_duration_samples
 
-        # print("audio_data_end:", audio_data_end, "clip_stride_samples:", clip_stride_samples)
+        print("audio_data_end:", audio_data_end, "clip_stride_samples:", clip_stride_samples)
 
         # Load model and create a tf session to process audio pieces
         recognize_graph = self.load_graph("./model/my_frozen_graph.pb")
@@ -92,6 +92,10 @@ class Recognizer:
 
                 # Inference along audio stream.
                 for audio_data_offset in range(0, audio_data_end, clip_stride_samples):
+                # for i in range(3):
+                #     recordCommandPyAudio(duration=1, playback=False)
+                #     sample_rate, data = self.read_wav_file("./output.wav")
+
                     # print("Recognizing")
                     input_start = audio_data_offset
                     input_end = audio_data_offset + clip_duration_samples
@@ -106,12 +110,13 @@ class Recognizer:
                     outputs = np.squeeze(outputs)
                     current_time_ms = int(audio_data_offset * 1000 / sample_rate)
                     try:
-                        recognize_commands.process_latest_result(outputs, current_time_ms,
-                                                                 recognize_element)
+                        recognize_commands.process_latest_result(outputs, current_time_ms,recognize_element)
+                        # recognize_commands.process_latest_result(outputs, 0, recognize_element)
                     except ValueError as e:
                         tf.compat.v1.logging.error('Recognition processing failed: {}' % e)
                         return
                     # print("Recognize element: ", recognize_element.founded_command)
                     if (recognize_element.founded_command != '_silence_'):
                         all_found_words.append(recognize_element.founded_command)
+        # print("Words: ", all_found_words)
         return all_found_words
