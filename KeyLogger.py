@@ -51,14 +51,14 @@ def ReleaseKey(hexKeyCode):
     ctypes.windll.user32.SendInput(1, ctypes.pointer(x), ctypes.sizeof(x))
 
 def KeyPress():
+    #time.sleep(3)
+    #PressKey(0x2C) # press Z
+    #time.sleep(.05)
+    #ReleaseKey(0x2C) 
+    #time.sleep(3)
+    PressKey(0xCD) # press Right arrow
     time.sleep(3)
-    PressKey(0x2C) # press Z
-    time.sleep(.05)
-    ReleaseKey(0x2C) 
-    time.sleep(3)
-    PressKey(0xCB) # press Left arrow
-    time.sleep(.05)
-    ReleaseKey(0xCB)
+    ReleaseKey(0xCD)
 
 def main():
     KeyPress()

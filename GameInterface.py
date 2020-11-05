@@ -1,3 +1,4 @@
+from KeyLogger import KeyPress
 class GameInterface:
     
     def __init__(self):
@@ -10,10 +11,11 @@ class GameInterface:
         print("Processing command: ", command)
         
         if command != "silence":     
-            if command == "left":
-                if self.command1 == "go":
+            if command == "right":
+                KeyPress()
+                #if self.command1 == "go":
                     # Keep going left
-                    pass
+                #    pass
                     
             # Command 0 is second last command 
             # Command 1 is last command
