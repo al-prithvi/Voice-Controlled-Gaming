@@ -11,8 +11,8 @@ class GameInterface:
         print("Processing command: ", command)
         
         if command != "silence":     
-            if command == "right":
-                KeyPress()
+            #if command == "right":
+            KeyPress(command)
                 #if self.command1 == "go":
                     # Keep going left
                 #    pass
