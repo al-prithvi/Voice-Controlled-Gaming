@@ -3,15 +3,6 @@ import numpy as np
 
 
 class RecognizeResult(object):
-  """Save recognition result temporarily.
-  Attributes:
-    founded_command: A string indicating the word just founded. Default value
-      is '_silence_'
-    score: An float representing the confidence of founded word. Default
-      value is zero.
-    is_new_command: A boolean indicating if the founded command is a new one
-      against the last one. Default value is False.
-  """
 
   def __init__(self):
     self._founded_command = "_silence_"
@@ -44,27 +35,6 @@ class RecognizeResult(object):
 
 
 class RecognizeCommands(object):
-  """Smooth the inference results by using average window.
-  Maintain a slide window over the audio stream, which adds new result(a pair of
-  the 1.confidences of all classes and 2.the start timestamp of input audio
-  clip) directly the inference produces one and removes the most previous one
-  and other abnormal values. Then it smooth the results in the window to get
-  the most reliable command in this period.
-  Attributes:
-    _label: A list containing commands at corresponding lines.
-    _average_window_duration: The length of average window.
-    _detection_threshold: A confidence threshold for filtering out unreliable
-      command.
-    _suppression_ms: Milliseconds every two reliable founded commands should
-      apart.
-    _minimum_count: An integer count indicating the minimum results the average
-      window should cover.
-    _previous_results: A deque to store previous results.
-    _label_count: The length of label list.
-    _previous_top_label: Last founded command. Initial value is '_silence_'.
-    _previous_top_time: The timestamp of _previous results. Default is -np.inf.
-  """
-
   def __init__(self, labels, average_window_duration_ms, detection_threshold,
                suppression_ms, minimum_count):
     """Init the RecognizeCommands with parameters used for smoothing."""
@@ -82,21 +52,11 @@ class RecognizeCommands(object):
 
   def process_latest_result(self, latest_results, current_time_ms,
                             recognize_element):
-    """Smoothing the results in average window when a new result is added in.
-    Receive a new result from inference and put the founded command into
-    a RecognizeResult instance after the smoothing procedure.
-    Args:
-      latest_results: A list containing the confidences of all labels.
-      current_time_ms: The start timestamp of the input audio clip.
-      recognize_element: An instance of RecognizeResult to store founded
-        command, its scores and if it is a new command.
-    Raises:
-      ValueError: The length of this result from inference doesn't match
-        label count.
-      ValueError: The timestamp of this result is earlier than the most
-        previous one in the average window
-    """
-    # print("Latest result: ", latest_results)
+
+    # print("Scores", end=": " )
+    # [print('{:.3f}'.format(float(x)), end=" ") for x in latest_results]
+    # print(", Max: {:.3f}".format(max(latest_results)))
+
     if latest_results.shape[0] != self._label_count:
       raise ValueError("The results for recognition should contain {} "
                        "elements, but there are {} produced".format(

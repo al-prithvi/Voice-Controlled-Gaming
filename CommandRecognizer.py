@@ -2,6 +2,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import time
+
 import tensorflow as tf
 from tensorflow.python.ops import io_ops
 import numpy as np
@@ -23,11 +25,15 @@ class Recognizer:
         ]
 
     def classifyCommand(self, command):
+        start_time = time.time()
         commandClass = "silence"
         commands = self.recognize()
         if len(commands) > 0:
             commandClass = commands[0]
             print("Recognized Command: ", commandClass)
+        end_time = time.time()
+        recognization_delay = end_time - start_time
+        print('Recognization delay: {:0.4f}s'.format(recognization_delay))
         return commandClass
 
     def load_graph(self, frozen_graph_filename):
@@ -44,7 +50,7 @@ class Recognizer:
         data, sample_rate = sf.read('./output.wav')
         recognize_commands = RecognizeCommands(
             labels=["_silence_", "unknown", "yes", "no", "up", "down", "left", "right", "on", "off", "stop", "go"], #training label sequence
-            average_window_duration_ms=1500,
+            average_window_duration_ms=500,
             detection_threshold=0.7,
             suppression_ms=10,
             minimum_count=1)
