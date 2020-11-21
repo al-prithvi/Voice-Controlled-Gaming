@@ -1,8 +1,3 @@
-import sounddevice as sd
-import numpy as np
-import scipy.io.wavfile as wav
-
-
 from CommandRecorder import recordCommandPyAudio, recordCommandSounddevice
 from CommandRecognizer import Recognizer
 from GameInterface import GameInterface
@@ -15,7 +10,6 @@ if __name__ == "__main__":
     gameInterface = GameInterface()
 
     while True:
-        command = recordCommandPyAudio(duration=2.1, playback=False) # 1500
+        command = recordCommandSounddevice(duration=1.5, playback=False) # 1500
         command = recognizer.classifyCommand(command)
-    # command = recognizer.recognize()
         gameInterface.processCommand(command)

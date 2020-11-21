@@ -3,6 +3,7 @@ import pyaudio
 import wave
 
 import sounddevice as sd
+import soundfile as sf
 import numpy as np
 import scipy.io.wavfile as wav
 
@@ -12,7 +13,7 @@ import scipy.io.wavfile as wav
 def recordCommandPyAudio(duration=3, playback=False):
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
-    CHANNELS = 2
+    CHANNELS = 1
     RATE = 16000
     RECORD_SECONDS = duration
     WAVE_OUTPUT_FILENAME = "output.wav"
@@ -75,15 +76,16 @@ def recordCommandPyAudio(duration=3, playback=False):
     return wf
 
 def recordCommandSounddevice(duration=3, playback=False):
-    fs=44100
-    command = sd.rec(duration * fs, samplerate=fs, channels=2,dtype='float64')
-    print("Recording Audio")
+    fs=16000
+    command = sd.rec(int(duration * fs), samplerate=fs, channels=1, dtype='float64')
+    print("* recording")
     sd.wait()
 
     if playback:
         print("Audio recording complete , Play Audio")
         sd.play(command, fs)
         sd.wait()
-        print("Play Audio Complete")
+    print("* done recording")
+    sf.write("./output.wav", command, fs)
 
     return command
