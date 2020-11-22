@@ -24,10 +24,10 @@ class Recognizer:
             "./model/e001_light_weight/frozen_graph_e001_light_weight.pb",
         ]
 
-    def classifyCommand(self, command):
+    def classifyCommand(self, command, window_len, recording_len):
         start_time = time.time()
         commandClass = "silence"
-        commands = self.recognize()
+        commands = self.recognize(window_len, recording_len)
         if len(commands) > 0:
             commandClass = commands[0]
             print("Recognized Command: ", commandClass)
@@ -46,11 +46,11 @@ class Recognizer:
                 tf.import_graph_def(od_graph_def, name='')
         return graph
  
-    def recognize(self):
+    def recognize(self, window_len, recording_len):
         data, sample_rate = sf.read('./output.wav')
         recognize_commands = RecognizeCommands(
             labels=["_silence_", "unknown", "yes", "no", "up", "down", "left", "right", "on", "off", "stop", "go"], #training label sequence
-            average_window_duration_ms=500,
+            average_window_duration_ms=window_len,
             detection_threshold=0.7,
             suppression_ms=10,
             minimum_count=1)
@@ -91,7 +91,7 @@ class Recognizer:
                     except ValueError as e:
                         tf.compat.v1.logging.error('Recognition processing failed: {}' % e)
                         return
-                    if (recognize_element.founded_command != '_silence_'):
+                    if (recognize_element.founded_command != '_silence_' and recognize_element.founded_command != 'stop' ):
                         all_found_words.append(recognize_element.founded_command)
                         return all_found_words
         return []
