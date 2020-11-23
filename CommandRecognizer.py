@@ -3,6 +3,8 @@ from __future__ import division
 from __future__ import print_function
 
 import time
+import subprocess
+import json
 
 import tensorflow as tf
 from tensorflow.python.ops import io_ops
@@ -13,6 +15,27 @@ import soundfile as sf
 from model.recognize_commands import RecognizeResult, RecognizeCommands
 from CommandRecorder import recordCommandPyAudio
 
+
+def deepspeechCommandRecognize():
+    # A. You will have to download the model and scorer from https://github.com/mozilla/DeepSpeech/releases
+    # 1. deepspeech-0.9.1-models.pbmm
+    # 2. deepspeech-0.9.1-models.scorer 
+    # Place these in deepspeech folder
+    # B. run `pip install deepspeech`
+
+    print("\n")
+    valid_words = ["yes", "no", "up", "down", "left", "right", "on", "off", "stop", "go"]
+    command = subprocess.Popen(["deepspeech", "--model", "./deepspeech/deepspeech-0.9.1-models.pbmm", "--scorer", "./deepspeech/deepspeech-0.9.1-models.scorer", "--audio", "output.wav", "--json"], stdout=subprocess.PIPE)
+    output = command.communicate()[0]
+    output = json.loads(output)
+    print("\n")
+    words = output.get('transcripts')[0].get('words')
+    if (len(output.get('transcripts')[0].get('words')) > 0):
+        word = words[0].get('word')
+        if word in valid_words:
+            return word
+    return ""
+    
 class Recognizer:
     def __init__(self):
         super().__init__()
