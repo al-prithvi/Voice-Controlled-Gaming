@@ -1,6 +1,6 @@
 # Voice-Controlled-Gaming
 
-Welcome to our project - Voice Commands for an immersive gaming experience
+Welcome to our [project](https://github.com/parthv21/Voice-Controlled-Gaming/) - Voice Commands for an immersive gaming experience
 
 To run our project you will need
 
@@ -25,7 +25,7 @@ python runner.py tetris tf
 If you want to test a new game then you will have to edit `KeyLogging.py` and add a new function for key press you want to support. You can take a look at how to define these functions by looking at our `pressKeyMario(command)` or  `pressKeyTetris(command)` methods.
 
 
-We have tuned and trained the [conv](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/speech_commands/models.py#L207) and [light](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/speech_commands/models.py#L333) [speech commands](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/speech_commands) model by tensor flow.
+We have tuned and trained the [conv](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/speech_commands/models.py#L207) and [light](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/speech_commands/models.py#L333) from [speech commands](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/speech_commands) model by tensor flow.
 
 The dataset used by this project is [TensorFlow Speech Recognition Challenge](https://www.kaggle.com/c/tensorflow-speech-recognition-challenge) and our system supports the following commands: 
 ```
