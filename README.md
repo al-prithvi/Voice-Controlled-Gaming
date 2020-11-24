@@ -32,3 +32,6 @@ The dataset used by this project is [TensorFlow Speech Recognition Challenge](ht
 ["Yes", "No", "Up", "Down", "Left", "Right", "On", "Off", "Stop", "Go"]
 ```
 
+### Tips
+
+- If running on Mac then please run from the default terminal. 
