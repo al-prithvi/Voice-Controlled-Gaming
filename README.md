@@ -4,9 +4,11 @@ Welcome to our project - Voice Commands for an immersive gaming experience
 
 To run our project you will need
 
-1. mGBA emulator
-2. ROM of game you want to voice control
-3. python
+1. python 3.7 
+2. PIP Packages - sounddevice, tensorflow, numpy, keyboard
+3. [mGBA emulator](https://mgba.io/downloads.html)
+4. ROM of game you want to voice control
+
 
 To run a mario game with our trained tensorflow model run the following command: 
 
