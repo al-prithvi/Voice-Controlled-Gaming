@@ -1,3 +1,5 @@
+# https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/speech_commands/recognize_commands.py
+
 import collections
 import numpy as np
 

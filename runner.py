@@ -2,7 +2,6 @@ import time ,sys
 import argparse
 from CommandRecorder import recordCommandPyAudio, recordCommandSounddevice
 from CommandRecognizer import Recognizer, deepspeechCommandRecognize
-# from GameInterface import GameInterface
 from KeyLogging import pressKeyMario,pressKeyTetris
 
 if __name__ == "__main__":
@@ -18,12 +17,11 @@ if __name__ == "__main__":
     if(args.game!="mario" and args.game!="tetris"):
         print("Add tetris or mario as arguments")
         sys.exit()
-    # gameInterface = GameInterface()
     while True:
         
 
         start_time = time.time()
-        command = recordCommandSounddevice(duration=recording_len, playback=False) # 1500
+        command = recordCommandSounddevice(duration=recording_len, playback=False)
         if args.recognizer == "tf":
             command = recognizer.classifyCommand(command,window_len,recording_len)
         elif args.recognizer == "ds":
